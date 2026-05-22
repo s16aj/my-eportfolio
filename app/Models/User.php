@@ -7,6 +7,8 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -17,7 +19,6 @@ class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
 
-    // HasApiTokens allows the user to create API tokens for login
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -27,9 +28,19 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
-
-            // Laravel will automatically hash the password
             'password' => 'hashed',
         ];
+    }
+
+    // One user has one profile
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    // One user can create many portfolios
+    public function portfolios(): HasMany
+    {
+        return $this->hasMany(Portfolio::class);
     }
 }
