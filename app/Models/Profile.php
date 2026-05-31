@@ -16,6 +16,12 @@ class Profile extends Model
         'bio',
         'phone',
         'address',
+        'university',
+        'major',
+        'profile_image',
+        'linkedin_url',
+        'github_url',
+        'website_url',
     ];
 
     // Profile belongs to one user

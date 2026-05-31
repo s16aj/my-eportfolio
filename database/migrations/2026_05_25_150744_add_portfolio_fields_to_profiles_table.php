@@ -1,0 +1,46 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::table('profiles', function (Blueprint $table) {
+
+            $table->string('university')->nullable();
+            $table->string('major')->nullable();
+
+            $table->string('profile_image')->nullable();
+
+            $table->string('linkedin_url')->nullable();
+            $table->string('github_url')->nullable();
+            $table->string('website_url')->nullable();
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::table('profiles', function (Blueprint $table) {
+
+            $table->dropColumn([
+                'university',
+                'major',
+                'profile_image',
+                'linkedin_url',
+                'github_url',
+                'website_url',
+            ]);
+
+        });
+    }
+};
