@@ -5,6 +5,7 @@ use App\Http\Controllers\EducationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TemplateController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])
@@ -34,8 +35,11 @@ Route::post('/projects', [ProjectController::class, 'store'])
 Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])
     ->name('projects.destroy');
 
-Route::get('/templates', [DashboardController::class, 'templates'])
+Route::get('/templates', [TemplateController::class, 'index'])
     ->name('templates');
+
+Route::post('/templates/{template}/select', [TemplateController::class, 'select'])
+    ->name('templates.select');
 
 Route::get('/portfolio', [DashboardController::class, 'portfolio'])
     ->name('portfolio');
