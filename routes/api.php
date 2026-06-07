@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\SkillController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\ProfileController;
-use App\Http\Controllers\Api\EducationController;
-use App\Http\Controllers\Api\SkillController;
-use App\Http\Controllers\Api\projectController;
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);

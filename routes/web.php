@@ -1,61 +1,41 @@
 <?php
 
-use App\Models\Profile;
-use Illuminate\Http\Request;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EducationController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SkillController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->name('dashboard');
+Route::get('/', [DashboardController::class, 'index'])
+    ->name('dashboard');
 
+Route::get('/profile', [ProfileController::class, 'edit'])
+    ->name('profile');
 
-Route::get('/profile', function () {
-    $user = \App\Models\User::first();
+Route::post('/profile', [ProfileController::class, 'update'])
+    ->name('profile.update');
 
-    $profile = $user->profile;
+Route::post('/educations', [EducationController::class, 'store'])
+    ->name('educations.store');
 
-    return Inertia::render('Profile', [
-        'user' => $user,
-        'profile' => $profile,
-    ]);
-})->name('profile');
+Route::delete('/educations/{education}', [EducationController::class, 'destroy'])
+    ->name('educations.destroy');
 
-Route::post('/profile', function (Request $request) {
-    $validated = $request->validate([
-        'full_name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'email', 'max:255'],
-        'university' => ['nullable', 'string', 'max:255'],
-        'major' => ['nullable', 'string', 'max:255'],
-        'bio' => ['nullable', 'string', 'max:1000'],
-        'skills' => ['nullable', 'string', 'max:500'],
-    ]);
+Route::post('/skills', [SkillController::class, 'store'])
+    ->name('skills.store');
 
-    $user = \App\Models\User::first();
+Route::delete('/skills/{skill}', [SkillController::class, 'destroy'])
+    ->name('skills.destroy');
 
-    $user->update([
-        'name' => $validated['full_name'],
-        'email' => $validated['email'],
-    ]);
+Route::post('/projects', [ProjectController::class, 'store'])
+    ->name('projects.store');
 
-    Profile::updateOrCreate(
-        [
-            'user_id' => $user->id,
-        ],
-        [
-            'bio' => $validated['bio'],
-            'university' => $validated['university'],
-            'major' => $validated['major'],
-        ]
-    );
+Route::delete('/projects/{project}', [ProjectController::class, 'destroy'])
+    ->name('projects.destroy');
 
-    return back()->with('success', 'Profile updated successfully!');
-})->name('profile.store');
+Route::get('/templates', [DashboardController::class, 'templates'])
+    ->name('templates');
 
-Route::get('/templates', function () {
-    return Inertia::render('Templates');
-})->name('templates');
-
-Route::get('/portfolio', function () {
-    return Inertia::render('Portfolio');
-})->name('portfolio');
+Route::get('/portfolio', [DashboardController::class, 'portfolio'])
+    ->name('portfolio');

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Skill;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,9 +16,7 @@ class Profile extends Model
         'user_id',
         'bio',
         'phone',
-        'address',
-        'university',
-        'major',
+        'location',
         'profile_image',
         'linkedin_url',
         'github_url',
