@@ -6,6 +6,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TemplateController;
+use App\Http\Controllers\PortfolioController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])
@@ -41,5 +42,5 @@ Route::get('/templates', [TemplateController::class, 'index'])
 Route::post('/templates/{template}/select', [TemplateController::class, 'select'])
     ->name('templates.select');
 
-Route::get('/portfolio', [DashboardController::class, 'portfolio'])
+Route::get('/portfolio', [PortfolioController::class, 'preview'])
     ->name('portfolio');
