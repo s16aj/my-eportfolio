@@ -21,14 +21,26 @@ class DashboardController extends Controller
             ->with(['educations', 'skills', 'projects'])
             ->first();
 
+        // Load the user's portfolio with engagement statistics
+        $portfolio = $user->portfolios()
+            ->with('engagementStatistic')
+            ->first();
+
         // Send data to the Dashboard page
         return Inertia::render('Dashboard', [
             'user' => $user,
             'profile' => $profile,
+
             'stats' => [
                 'educations' => $profile?->educations->count() ?? 0,
                 'skills' => $profile?->skills->count() ?? 0,
                 'projects' => $profile?->projects->count() ?? 0,
+            ],
+
+            'analytics' => [
+                'total_views' => $portfolio?->engagementStatistic?->total_views ?? 0,
+                'most_viewed_section' => $portfolio?->engagementStatistic?->most_viewed_section ?? 'N/A',
+                'last_viewed_at' => $portfolio?->engagementStatistic?->last_viewed_at,
             ],
         ]);
     }

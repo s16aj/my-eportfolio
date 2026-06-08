@@ -1,7 +1,7 @@
 import AppLayout from '../Layouts/AppLayout';
 import { Link } from '@inertiajs/react';
 
-export default function Dashboard({ user, profile, stats }) {
+export default function Dashboard({ user, profile, stats, analytics }) {
     const profileFields = [
         profile?.bio,
         profile?.phone,
@@ -16,6 +16,10 @@ export default function Dashboard({ user, profile, stats }) {
     const profileCompletion = Math.round(
         (completedFields / profileFields.length) * 100
     );
+
+    const lastViewedDate = analytics?.last_viewed_at
+        ? String(analytics.last_viewed_at).split('T')[0]
+        : 'No views yet';
 
     const cards = [
         {
@@ -96,6 +100,39 @@ export default function Dashboard({ user, profile, stats }) {
                         </div>
                     ))}
                 </div>
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+                    <h2 className="text-2xl font-bold text-[#0B2A5B]">
+                        Engagement Analytics
+                    </h2>
+
+                    <p className="text-gray-500 mt-2">
+                        Basic statistics about visits to your published portfolio.
+                    </p>
+
+                    <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="rounded-2xl bg-gray-50 border border-gray-100 p-5">
+                            <h3 className="text-gray-500 font-medium">
+                                Total Views
+                            </h3>
+
+                            <p className="text-4xl font-bold text-[#1456B8] mt-4">
+                                {analytics?.total_views || 0}
+                            </p>
+                        </div>
+
+                        <div className="rounded-2xl bg-gray-50 border border-gray-100 p-5">
+                            <h3 className="text-gray-500 font-medium">
+                                Last Viewed
+                            </h3>
+
+                            <p className="text-2xl font-bold text-[#0B2A5B] mt-4">
+                                {lastViewedDate}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            
 
                 <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
                     <h2 className="text-2xl font-bold text-[#0B2A5B]">

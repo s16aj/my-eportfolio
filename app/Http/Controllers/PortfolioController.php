@@ -59,6 +59,23 @@ class PortfolioController extends Controller
             ->where('is_published', true)
             ->firstOrFail();
 
+        $statistic = $portfolio->engagementStatistic()->firstOrCreate(
+            [
+                'portfolio_id' => $portfolio->id,
+            ],
+            [
+                'total_views' => 0,
+                'most_viewed_section' => 'portfolio',
+                'last_viewed_at' => now(),
+            ]
+        );
+
+        $statistic->increment('total_views');
+
+        $statistic->update([
+            'last_viewed_at' => now(),
+        ]);
+
         $user = $portfolio->user;
         $profile = $user->profile;
 
