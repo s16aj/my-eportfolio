@@ -44,3 +44,9 @@ Route::post('/templates/{template}/select', [TemplateController::class, 'select'
 
 Route::get('/portfolio', [PortfolioController::class, 'preview'])
     ->name('portfolio');
+
+Route::post('/portfolio/publish', [PortfolioController::class, 'publish'])
+    ->name('portfolio.publish');
+
+Route::get('/portfolio/{slug}', [PortfolioController::class, 'showPublic'])
+    ->name('portfolio.public');
