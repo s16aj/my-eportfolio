@@ -1,11 +1,15 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
+
 export default function AppLayout({ children }) {
+    const { auth } = usePage().props;
+    const user = auth?.user;
+
     return (
         <div className="min-h-screen bg-white">
             {/* Top navigation shared across all pages */}
             <nav className="bg-white border-b border-gray-200 shadow-sm">
                 <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-                    
+
                     {/* Brand logo and app name */}
                     <div className="flex items-center gap-3">
                         <img
@@ -20,37 +24,64 @@ export default function AppLayout({ children }) {
                     </div>
 
                     {/* Primary navigation links */}
-                <div className="flex items-center gap-8 text-gray-600 font-medium">
+                    <div className="flex items-center gap-8 text-gray-600 font-medium">
 
-                    <Link
-                        href="/"
-                        className="hover:text-[#1456B8] transition"
-                    >
-                        Dashboard
-                    </Link>
+                        {user?.role === 'admin' ? (
+                            <>
+                                <Link
+                                    href="/admin"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Admin Dashboard
+                                </Link>
 
-                    <Link
-                        href="/profile"
-                        className="hover:text-[#1456B8] transition"
-                    >
-                        Profile
-                    </Link>
+                                <Link
+                                    href="/admin/users"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Users
+                                </Link>
 
-                    <Link
-                        href="/templates"
-                        className="hover:text-[#1456B8] transition"
-                    >
-                        Templates
-                    </Link>
+                                <Link
+                                    href="/admin/templates"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Templates
+                                </Link>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Dashboard
+                                </Link>
 
-                    <Link
-                        href="/portfolio"
-                        className="hover:text-[#1456B8] transition"
-                    >
-                        Portfolio
-                    </Link>
+                                <Link
+                                    href="/profile"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Profile
+                                </Link>
 
-                </div>
+                                <Link
+                                    href="/templates"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Templates
+                                </Link>
+
+                                <Link
+                                    href="/portfolio"
+                                    className="hover:text-[#1456B8] transition"
+                                >
+                                    Portfolio
+                                </Link>
+                            </>
+                        )}
+
+                    </div>
                 </div>
             </nav>
 
@@ -61,11 +92,12 @@ export default function AppLayout({ children }) {
         </div>
     );
 }
+
 //is the shared design around every page.
 
 // AppLayout.jsx defines a reusable layout component that wraps around the content of each page.
 // It includes a top navigation bar with links to different sections of the application,
-// and a main content area where the specific page content will be rendered. 
+// and a main content area where the specific page content will be rendered.
 // This layout ensures a consistent look and feel across all pages of the application.
 // The navigation links use Inertia's Link component to enable client-side navigation without full page reloads,
 // enhancing the user experience.

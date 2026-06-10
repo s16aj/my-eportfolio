@@ -7,6 +7,7 @@ use App\Http\Controllers\SkillController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TemplateController;
 use App\Http\Controllers\PortfolioController;
+use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [DashboardController::class, 'index'])
@@ -50,3 +51,19 @@ Route::post('/portfolio/publish', [PortfolioController::class, 'publish'])
 
 Route::get('/portfolio/{slug}', [PortfolioController::class, 'showPublic'])
     ->name('portfolio.public');
+
+Route::get('/admin', [AdminController::class, 'dashboard'])
+    ->name('admin.dashboard');
+
+Route::get('/admin/users', [AdminController::class, 'users'])
+    ->name('admin.users');
+
+Route::get('/admin/templates', [AdminController::class, 'templates'])
+    ->name('admin.templates');
+
+Route::post('/admin/templates', [AdminController::class, 'storeTemplate'])
+    ->name('admin.templates.store');
+
+Route::delete('/admin/templates/{template}', [AdminController::class, 'deleteTemplate'])
+    ->name('admin.templates.delete');
+
