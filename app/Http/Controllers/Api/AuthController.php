@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     /**
-     * Register a new user
+     * Register a new student user
      */
     public function register(Request $request)
     {
@@ -19,15 +19,14 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6',
-            'role' => 'required|string|in:student,admin',
         ]);
 
-        // Create new user
+        // Create new student user
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => $validated['password'],
-            'role' => $validated['role'] ?? 'student',
+            'role' => 'student',
         ]);
 
         // Generate Sanctum token
@@ -58,7 +57,6 @@ class AuthController extends Controller
 
         // Check if user exists and password is correct
         if (!$user || !Hash::check($validated['password'], $user->password)) {
-
             return response()->json([
                 'message' => 'Invalid email or password',
             ], 401);
@@ -72,6 +70,7 @@ class AuthController extends Controller
             'message' => 'Login successful',
             'token' => $token,
             'user' => $user,
+            'role' => $user->role,
         ]);
     }
 

@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
-use App\Models\User;
 use Inertia\Inertia;
 
 class PortfolioController extends Controller
 {
     public function preview()
     {
-        $user = User::first();
+        $user = auth()->user();
 
         $profile = $user->profile()
             ->with(['educations', 'skills', 'projects'])
@@ -31,7 +30,7 @@ class PortfolioController extends Controller
     }
     public function publish()
     {
-        $user = User::first();
+        $user = auth()->user();
 
         $portfolio = Portfolio::where('user_id', $user->id)->first();
 

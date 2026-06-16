@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Profile;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,8 +14,8 @@ class ProfileController extends Controller
      */
     public function edit()
     {
-        // Get the first user for testing
-        $user = User::first();
+        // Get the authenticated user
+        $user = auth()->user();
 
         // Load profile with related data
         $profile = $user->profile()
@@ -53,8 +52,9 @@ class ProfileController extends Controller
             'website_url' => ['nullable', 'string', 'max:255'],
         ]);
 
-        // Get the current user
-        $user = User::first();
+        // Manual review: this controller is also exposed via API resource routes; ensure auth middleware where required.
+        // Get the current authenticated user
+        $user = auth()->user();
 
         // Update user account information
         $user->update([

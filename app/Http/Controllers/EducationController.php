@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Education;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class EducationController extends Controller
@@ -22,8 +21,9 @@ class EducationController extends Controller
             'end_date' => ['nullable', 'date'],
         ]);
 
-        // Get the current user
-        $user = User::first();
+        // Manual review: this controller is also exposed via API resource routes; ensure auth middleware where required.
+        // Get the current authenticated user
+        $user = auth()->user();
 
         // Add the education record to the user's profile
         $user->profile->educations()->create($validated);

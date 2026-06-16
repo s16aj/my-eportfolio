@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Skill;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class SkillController extends Controller
@@ -15,7 +14,8 @@ class SkillController extends Controller
             'skill_level' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $user = User::first();
+        // Manual review: this controller is also exposed via API resource routes; ensure auth middleware where required.
+        $user = auth()->user();
 
         $user->profile->skills()->create($validated);
 

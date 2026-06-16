@@ -1,4 +1,4 @@
-import { Link, usePage } from '@inertiajs/react';
+import { Link, usePage, router } from '@inertiajs/react';
 
 export default function AppLayout({ children }) {
     const { auth } = usePage().props;
@@ -81,6 +81,14 @@ export default function AppLayout({ children }) {
                             </>
                         )}
 
+                        <button
+                            type="button"
+                            onClick={() => router.post('/logout')}
+                            className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition"
+                        >
+                            Logout
+                        </button>
+
                     </div>
                 </div>
             </nav>
@@ -103,6 +111,6 @@ export default function AppLayout({ children }) {
 // enhancing the user experience.
 
 //It does 3 things:
-// 1. Shows the top navbar with logo and menu links (Dashboard, Profile, Templates, Portfolio).
+// 1. Shows the top navbar with logo and menu links.
 // 2. Handles navigation using Inertia Link components (so page changes are smooth, no full reload).
 // 3. Displays each page’s actual content in the main section through children.

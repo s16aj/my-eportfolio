@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
-use App\Models\User;
 use Illuminate\Http\Request;
 
 class ProjectController extends Controller
@@ -16,7 +15,8 @@ class ProjectController extends Controller
             'project_url' => ['nullable', 'string', 'max:255'],
         ]);
 
-        $user = User::first();
+        // Manual review: this controller is also exposed via API resource routes; ensure auth middleware where required.
+        $user = auth()->user();
 
         $user->profile->projects()->create($validated);
 

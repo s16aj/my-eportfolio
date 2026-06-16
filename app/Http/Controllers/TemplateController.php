@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Portfolio;
 use App\Models\Template;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,7 +11,7 @@ class TemplateController extends Controller
 {
     public function index()
     {
-        $user = User::first();
+        $user = auth()->user();
 
         $templates = Template::where('is_active', true)->get();
 
@@ -28,7 +27,7 @@ class TemplateController extends Controller
 
     public function select(Request $request, Template $template)
     {
-        $user = User::first();
+        $user = auth()->user();
 
         Portfolio::updateOrCreate(
         ['user_id' => $user->id],

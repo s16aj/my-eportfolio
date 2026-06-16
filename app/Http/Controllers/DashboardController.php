@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Inertia\Inertia;
 
 class DashboardController extends Controller
@@ -13,8 +12,13 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Get the first user for testing purposes
-        $user = User::first();
+        // Get the authenticated user
+        $user = auth()->user();
+
+        // Redirect admin users to the admin dashboard
+        if ($user->role === 'admin') {
+            return redirect('/admin');
+        }
 
         // Load profile with related education, skills, and projects
         $profile = $user->profile()
