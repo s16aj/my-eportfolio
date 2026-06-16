@@ -53,12 +53,31 @@ class AdminController extends Controller
         return back();
     }
 
-    // Delete a template
+    // Delete a template and move affected portfolios to the default template
     public function deleteTemplate(Template $template)
     {
+        $defaultTemplate = Template::where('name', 'Default Template')->first();
+
+        if (! $defaultTemplate) {
+            $defaultTemplate = Template::create([
+                'name' => 'Default Template',
+                'description' => 'Default portfolio template used when another template is removed.',
+                'is_active' => true,
+            ]);
+        }
+
+        if ($template->id === $defaultTemplate->id) {
+            return back()->withErrors([
+                'template' => 'The default template cannot be deleted.',
+            ]);
+        }
+
+        Portfolio::where('template_id', $template->id)->update([
+            'template_id' => $defaultTemplate->id,
+        ]);
+
         $template->delete();
 
-        return back();
+        return back()->with('success', 'Template deleted successfully. Affected portfolios were moved to the default template.');
     }
-
 }

@@ -1,7 +1,9 @@
 import AppLayout from '../../Layouts/AppLayout';
-import { useForm, router } from '@inertiajs/react';
+import { useForm, router, usePage } from '@inertiajs/react';
 
 export default function Templates({ templates }) {
+    const { errors, flash } = usePage().props;
+
     const { data, setData, post, processing, reset } = useForm({
         name: '',
         description: '',
@@ -14,7 +16,6 @@ export default function Templates({ templates }) {
             onSuccess: () => reset(),
         });
     };
-
 
     return (
         <AppLayout>
@@ -38,6 +39,18 @@ export default function Templates({ templates }) {
                         Available Templates
                     </h2>
 
+                    {flash?.success && (
+                        <div className="mb-6 bg-green-50 text-green-700 border border-green-200 rounded-xl p-4">
+                            {flash.success}
+                        </div>
+                    )}
+
+                    {errors?.template && (
+                        <div className="mb-6 bg-red-50 text-red-600 border border-red-200 rounded-xl p-4">
+                            {errors.template}
+                        </div>
+                    )}
+
                     {/* Total templates card */}
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 mb-8">
                         <p className="text-gray-500">Total Templates</p>
@@ -54,7 +67,6 @@ export default function Templates({ templates }) {
                             </h3>
 
                             <form onSubmit={submit} className="space-y-4">
-
                                 <input
                                     type="text"
                                     placeholder="Template Name"
@@ -78,11 +90,10 @@ export default function Templates({ templates }) {
                                 >
                                     Add Template
                                 </button>
-
                             </form>
                         </div>
-                        <table className="w-full">
 
+                        <table className="w-full">
                             <thead>
                                 <tr className="border-b">
                                     <th className="text-left py-4">Name</th>
@@ -104,6 +115,7 @@ export default function Templates({ templates }) {
                                         <td className="py-4">
                                             {template.description}
                                         </td>
+
                                         <td className="py-4">
                                             <button
                                                 type="button"
@@ -120,7 +132,6 @@ export default function Templates({ templates }) {
                                     </tr>
                                 ))}
                             </tbody>
-
                         </table>
                     </div>
 

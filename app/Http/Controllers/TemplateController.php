@@ -13,7 +13,9 @@ class TemplateController extends Controller
     {
         $user = auth()->user();
 
-        $templates = Template::where('is_active', true)->get();
+        $templates = Template::where('is_active', true)
+        ->where('name', '!=', 'Default Template')
+        ->get();
 
         $portfolio = Portfolio::with('template')
             ->where('user_id', $user->id)
