@@ -10,7 +10,18 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\WebAuthController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
+
+// Public welcome/landing page
+Route::get('/', function () {
+    if (Auth::check()) {
+        return redirect('/dashboard');
+    }
+
+    return Inertia::render('Welcome');
+})->name('welcome');
 
 // Public authentication routes
 Route::get('/login', [WebAuthController::class, 'showLogin'])->name('login');
@@ -39,7 +50,7 @@ Route::get('/portfolio/{slug}', [PortfolioController::class, 'showPublic'])
 Route::middleware('auth')->group(function () {
     Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
 
-    Route::get('/', [DashboardController::class, 'index'])
+    Route::get('/dashboard', [DashboardController::class, 'index'])
         ->name('dashboard');
 
     Route::get('/profile', [ProfileController::class, 'edit'])
@@ -77,6 +88,9 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/portfolio/publish', [PortfolioController::class, 'publish'])
         ->name('portfolio.publish');
+
+    Route::post('/portfolio/unpublish', [PortfolioController::class, 'unpublish'])
+        ->name('portfolio.unpublish');
 });
 
 Route::middleware(['auth', 'admin'])->group(function () {

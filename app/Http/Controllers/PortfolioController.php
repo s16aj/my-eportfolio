@@ -46,6 +46,23 @@ class PortfolioController extends Controller
         return back()->with('success', 'Portfolio published successfully!');
     }
 
+    public function unpublish()
+    {
+        $user = auth()->user();
+
+        $portfolio = Portfolio::where('user_id', $user->id)->first();
+
+        if (!$portfolio) {
+            return back()->with('error', 'No portfolio found to unpublish.');
+        }
+
+        $portfolio->update([
+            'is_published' => false,
+        ]);
+
+        return back()->with('success', 'Portfolio unpublished. It is no longer visible to the public.');
+    }
+
     public function showPublic($slug)
     {
         $portfolio = Portfolio::with([

@@ -31,22 +31,23 @@ class DashboardController extends Controller
             ->first();
 
         // Send data to the Dashboard page
-        return Inertia::render('Dashboard', [
-            'user' => $user,
-            'profile' => $profile,
+       return Inertia::render('Dashboard', [
+        'user' => $user,
+        'profile' => $profile,
+        'portfolio' => $portfolio,
 
-            'stats' => [
-                'educations' => $profile?->educations->count() ?? 0,
-                'skills' => $profile?->skills->count() ?? 0,
-                'projects' => $profile?->projects->count() ?? 0,
-            ],
+        'stats' => [
+            'educations' => $profile?->educations->count() ?? 0,
+            'skills' => $profile?->skills->count() ?? 0,
+            'projects' => $profile?->projects->count() ?? 0,
+        ],
 
-            'analytics' => [
-                'total_views' => $portfolio?->engagementStatistic?->total_views ?? 0,
-                'most_viewed_section' => $portfolio?->engagementStatistic?->most_viewed_section ?? 'N/A',
-                'last_viewed_at' => $portfolio?->engagementStatistic?->last_viewed_at,
-            ],
-        ]);
+        'analytics' => [
+            'total_views' => $portfolio?->engagementStatistic?->total_views ?? 0,
+            'most_viewed_section' => $portfolio?->engagementStatistic?->most_viewed_section ?? 'N/A',
+            'last_viewed_at' => $portfolio?->engagementStatistic?->last_viewed_at,
+        ],
+    ]);
     }
 
     /**

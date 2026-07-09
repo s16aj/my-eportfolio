@@ -36,7 +36,7 @@ class WebAuthController extends Controller
             return redirect('/admin');
         }
 
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
     // Show register page
@@ -63,7 +63,7 @@ class WebAuthController extends Controller
 
         Auth::login($user);
 
-        return redirect('/');
+        return redirect('/dashboard');
     }
 
     // Logout current user

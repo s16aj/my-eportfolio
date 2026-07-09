@@ -1,116 +1,77 @@
 import { Link, usePage, router } from '@inertiajs/react';
+import Logo from '../components/Logo';
 
 export default function AppLayout({ children }) {
     const { auth } = usePage().props;
+    const currentUrl = usePage().url;
     const user = auth?.user;
 
+    const isActive = (href) =>
+        href === '/dashboard' || href === '/admin'
+            ? currentUrl === href
+            : currentUrl.startsWith(href);
+
+    const linkClass = (href) =>
+        `px-3 py-2 rounded-lg transition ${
+            isActive(href)
+                ? 'text-[#1456B8] bg-blue-50 font-semibold'
+                : 'text-gray-600 hover:text-[#1456B8] hover:bg-gray-50'
+        }`;
+
+    const adminNavLinks = [
+        { href: '/admin', label: 'Admin Dashboard' },
+        { href: '/admin/users', label: 'Users' },
+        { href: '/admin/templates', label: 'Templates' },
+    ];
+
+    const studentNavLinks = [
+        { href: '/dashboard', label: 'Dashboard' },
+        { href: '/profile', label: 'Profile' },
+        { href: '/templates', label: 'Templates' },
+        { href: '/portfolio', label: 'Portfolio' },
+    ];
+
+    const navLinks = user?.role === 'admin' ? adminNavLinks : studentNavLinks;
+
     return (
-        <div className="min-h-screen bg-white">
-            {/* Top navigation shared across all pages */}
-            <nav className="bg-white border-b border-gray-200 shadow-sm">
-                <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="min-h-screen bg-gray-50">
+            <nav className="bg-white border-b border-gray-200 sticky top-0 z-10">
+                <div className="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between">
+                    <Link href={user?.role === 'admin' ? '/admin' : '/dashboard'} className="flex items-center gap-3 group">
+                        <Logo size={44} />
 
-                    {/* Brand logo and app name */}
-                    <div className="flex items-center gap-3">
-                        <img
-                            src="/images/logo-transparent.png"
-                            alt="MyE-Portfolio Logo"
-                            className="h-12 w-auto object-contain"
-                        />
+                        <div className="leading-none">
+                            <h1 className="text-xl font-extrabold tracking-tight">
+                                <span className="text-[#1456B8]">MyE</span>
+                                <span className="text-[#0B2A5B]">-Portfolio</span>
+                            </h1>
+                            <p className="text-[11px] text-gray-400 font-medium tracking-wide mt-1">
+                                Student Portfolio Builder
+                            </p>
+                        </div>
+                    </Link>
 
-                        <h1 className="text-2xl font-bold text-[#0B2A5B]">
-                            MyE-Portfolio
-                        </h1>
-                    </div>
-
-                    {/* Primary navigation links */}
-                    <div className="flex items-center gap-8 text-gray-600 font-medium">
-
-                        {user?.role === 'admin' ? (
-                            <>
-                                <Link
-                                    href="/admin"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Admin Dashboard
-                                </Link>
-
-                                <Link
-                                    href="/admin/users"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Users
-                                </Link>
-
-                                <Link
-                                    href="/admin/templates"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Templates
-                                </Link>
-                            </>
-                        ) : (
-                            <>
-                                <Link
-                                    href="/"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Dashboard
-                                </Link>
-
-                                <Link
-                                    href="/profile"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Profile
-                                </Link>
-
-                                <Link
-                                    href="/templates"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Templates
-                                </Link>
-
-                                <Link
-                                    href="/portfolio"
-                                    className="hover:text-[#1456B8] transition"
-                                >
-                                    Portfolio
-                                </Link>
-                            </>
-                        )}
+                    <div className="flex items-center gap-2 font-medium">
+                        {navLinks.map((link) => (
+                            <Link key={link.href} href={link.href} className={linkClass(link.href)}>
+                                {link.label}
+                            </Link>
+                        ))}
 
                         <button
                             type="button"
                             onClick={() => router.post('/logout')}
-                            className="bg-red-500 text-white px-4 py-2 rounded-xl hover:bg-red-600 transition"
+                            className="ml-2 text-red-600 bg-red-50 px-4 py-2 rounded-lg hover:bg-red-100 transition font-medium"
                         >
                             Logout
                         </button>
-
                     </div>
                 </div>
             </nav>
 
-            {/* Page-specific content is injected here */}
             <main className="max-w-7xl mx-auto p-6">
                 {children}
             </main>
         </div>
     );
 }
-
-//is the shared design around every page.
-
-// AppLayout.jsx defines a reusable layout component that wraps around the content of each page.
-// It includes a top navigation bar with links to different sections of the application,
-// and a main content area where the specific page content will be rendered.
-// This layout ensures a consistent look and feel across all pages of the application.
-// The navigation links use Inertia's Link component to enable client-side navigation without full page reloads,
-// enhancing the user experience.
-
-//It does 3 things:
-// 1. Shows the top navbar with logo and menu links.
-// 2. Handles navigation using Inertia Link components (so page changes are smooth, no full reload).
-// 3. Displays each page’s actual content in the main section through children.
