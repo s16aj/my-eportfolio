@@ -12,6 +12,7 @@ import {
     Globe,
     ExternalLink,
 } from 'lucide-react';
+import { formatMonthYear } from '../utils/formatDate';
 
 function Avatar({ user, profile, className }) {
     return (
@@ -294,9 +295,9 @@ function EducationList({ educations, simple = false, compact = false }) {
                     </p>
 
                     <p className="text-sm text-gray-400 mt-1">
-                        {formatDate(education.start_date)}
+                        {formatMonthYear(education.start_date)}
                         {education.end_date
-                            ? ` - ${formatDate(education.end_date)}`
+                            ? ` - ${formatMonthYear(education.end_date)}`
                             : ' - Present'}
                     </p>
                 </div>
@@ -409,10 +410,4 @@ function ContactLinks({ user, profile, simple = false }) {
 
 function EmptyText({ text }) {
     return <p className="text-sm text-gray-500">{text}</p>;
-}
-
-function formatDate(date) {
-    if (!date) return '';
-
-    return String(date).split(' ')[0];
 }

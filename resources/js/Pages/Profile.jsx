@@ -16,6 +16,9 @@ import FormSection from '../components/FormSection';
 import FormInput from '../components/FormInput';
 import FormTextarea from '../components/FormTextarea';
 import PrimaryButton from '../components/PrimaryButton';
+import { formatMonthYear } from '../utils/formatDate';
+
+const SKILL_LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
 
 function SectionHeader({ icon: Icon, iconColor, title, description }) {
     return (
@@ -91,6 +94,7 @@ export default function Profile({ user, profile, educations = [], skills = [], p
 
         post('/profile', {
             forceFormData: true,
+            preserveScroll: true,
         });
     };
 
@@ -339,7 +343,7 @@ export default function Profile({ user, profile, educations = [], skills = [], p
                             <FormInput
                                 label="Start Date"
                                 name="start_date"
-                                type="date"
+                                type="month"
                                 value={educationForm.data.start_date}
                                 onChange={(e) => educationForm.setData('start_date', e.target.value)}
                             />
@@ -347,7 +351,7 @@ export default function Profile({ user, profile, educations = [], skills = [], p
                             <FormInput
                                 label="End Date"
                                 name="end_date"
-                                type="date"
+                                type="month"
                                 value={educationForm.data.end_date}
                                 onChange={(e) => educationForm.setData('end_date', e.target.value)}
                             />
@@ -384,9 +388,9 @@ export default function Profile({ user, profile, educations = [], skills = [], p
                                             </p>
 
                                             <p className="text-sm text-gray-500 mt-1">
-                                                {education.start_date}
+                                                {formatMonthYear(education.start_date)}
                                                 {education.end_date
-                                                    ? ` - ${education.end_date}`
+                                                    ? ` - ${formatMonthYear(education.end_date)}`
                                                     : ' - Present'}
                                             </p>
                                         </div>
@@ -433,7 +437,8 @@ export default function Profile({ user, profile, educations = [], skills = [], p
                                 name="skill_level"
                                 value={skillForm.data.skill_level}
                                 onChange={(e) => skillForm.setData('skill_level', e.target.value)}
-                                placeholder="Beginner, Intermediate, Advanced"
+                                placeholder="Select level"
+                                options={SKILL_LEVELS}
                             />
                         </div>
 
