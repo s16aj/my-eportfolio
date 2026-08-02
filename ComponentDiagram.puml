@@ -1,0 +1,93 @@
+@startuml MyEPortfolio_ComponentDiagram
+skinparam componentStyle uml2
+skinparam wrapWidth 200
+skinparam defaultTextAlignment center
+
+title MyE-Portfolio — Detailed Component Diagram
+
+package "Frontend" {
+  [Inertia.js + React UI]
+}
+
+package "Backend" {
+  [AdminController]
+  [Api\\AuthController]
+  [Auth\\PasswordResetController]
+  [Auth\\WebAuthController]
+  [DashboardController]
+  [EducationController]
+  [PortfolioController]
+  [ProfileController]
+  [ProjectController]
+  [SkillController]
+  [TemplateController]
+}
+
+package "Database" {
+  interface users
+  interface profiles
+  interface educations
+  interface skills
+  interface projects
+  interface templates
+  interface portfolios
+  interface engagement_statistics
+}
+
+' Frontend <-> Backend
+[Inertia.js + React UI] --> [AdminController] : HTTP request
+[Inertia.js + React UI] --> [Api\\AuthController] : HTTP request
+[Inertia.js + React UI] --> [Auth\\PasswordResetController] : HTTP request
+[Inertia.js + React UI] --> [Auth\\WebAuthController] : HTTP request
+[Inertia.js + React UI] --> [DashboardController] : HTTP request
+[Inertia.js + React UI] --> [EducationController] : HTTP request
+[Inertia.js + React UI] --> [PortfolioController] : HTTP request
+[Inertia.js + React UI] --> [ProfileController] : HTTP request
+[Inertia.js + React UI] --> [ProjectController] : HTTP request
+[Inertia.js + React UI] --> [SkillController] : HTTP request
+[Inertia.js + React UI] --> [TemplateController] : HTTP request
+
+[AdminController] ..> [Inertia.js + React UI] : Inertia::render()
+[Api\\AuthController] ..> [Inertia.js + React UI] : Inertia::render()
+[Auth\\PasswordResetController] ..> [Inertia.js + React UI] : Inertia::render()
+[Auth\\WebAuthController] ..> [Inertia.js + React UI] : Inertia::render()
+[DashboardController] ..> [Inertia.js + React UI] : Inertia::render()
+[EducationController] ..> [Inertia.js + React UI] : Inertia::render()
+[PortfolioController] ..> [Inertia.js + React UI] : Inertia::render()
+[ProfileController] ..> [Inertia.js + React UI] : Inertia::render()
+[ProjectController] ..> [Inertia.js + React UI] : Inertia::render()
+[SkillController] ..> [Inertia.js + React UI] : Inertia::render()
+[TemplateController] ..> [Inertia.js + React UI] : Inertia::render()
+
+' Backend <-> Database
+[AdminController] --> users : reads/writes
+[AdminController] --> portfolios : reads
+[AdminController] --> templates : reads/writes
+
+[Api\\AuthController] --> users : reads/writes
+
+[Auth\\PasswordResetController] --> users : reads/writes
+
+[Auth\\WebAuthController] --> users : reads/writes
+
+[DashboardController] --> profiles : reads
+[DashboardController] --> educations : reads
+[DashboardController] --> skills : reads
+[DashboardController] --> projects : reads
+[DashboardController] --> portfolios : reads
+[DashboardController] --> engagement_statistics : reads
+
+[EducationController] --> educations : reads/writes
+
+[PortfolioController] --> portfolios : reads/writes
+
+[ProfileController] --> profiles : reads/writes
+
+[ProjectController] --> projects : reads/writes
+
+[SkillController] --> skills : reads/writes
+
+[TemplateController] --> templates : reads
+[TemplateController] --> portfolios : reads/writes
+
+@enduml

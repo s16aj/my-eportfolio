@@ -12,6 +12,7 @@ class SkillController extends Controller
         $validated = $request->validate([
             'skill_name' => ['required', 'string', 'max:255'],
             'skill_level' => ['nullable', 'string', 'max:255'],
+            'skill_percentage' => ['nullable', 'integer'],
         ]);
 
         // Manual review: this controller is also exposed via API resource routes; ensure auth middleware where required.

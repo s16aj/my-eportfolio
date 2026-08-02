@@ -14,6 +14,7 @@ class Skill extends Model
         'profile_id',
         'skill_name',
         'skill_level',
+        'skill_percentage',
     ];
 
     // Skill belongs to one profile
