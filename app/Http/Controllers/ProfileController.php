@@ -90,10 +90,10 @@ class ProfileController extends Controller
 
             if ($request->hasFile('profile_image')) {
                 if ($profile->profile_image) {
-                    Storage::disk('public')->delete($profile->profile_image);
+                    Storage::disk('s3')->delete($profile->profile_image);
                 }
 
-                $profileImagePath = $request->file('profile_image')->store('profile-images', 'public');
+                $profileImagePath = $request->file('profile_image')->store('profile-images', 's3');
             }
 
             $profile->update([

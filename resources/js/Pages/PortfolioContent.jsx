@@ -17,9 +17,9 @@ import { formatMonthYear } from '../utils/formatDate';
 function Avatar({ user, profile, className }) {
     return (
         <div className={className}>
-            {profile?.profile_image ? (
+            {profile?.profile_image_url ? (
                 <img
-                    src={`/storage/${profile.profile_image}`}
+                    src={profile.profile_image_url}
                     alt="Profile"
                     className="w-full h-full object-cover"
                 />

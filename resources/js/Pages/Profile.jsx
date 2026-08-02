@@ -55,9 +55,7 @@ function UnsavedBadge() {
 export default function Profile({ user, profile, educations = [], skills = [], projects = [] }) {
     const { flash } = usePage().props;
 
-    const currentProfileImage = profile?.profile_image
-        ? `/storage/${profile.profile_image}`
-        : null;
+    const currentProfileImage = profile?.profile_image_url ?? null;
 
     const [profileImagePreview, setProfileImagePreview] = useState(currentProfileImage);
 
