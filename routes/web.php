@@ -10,18 +10,11 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Auth\PasswordResetController;
 use App\Http\Controllers\Auth\WebAuthController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 // Public welcome/landing page
-Route::get('/', function () {
-    if (Auth::check()) {
-        return redirect('/dashboard');
-    }
-
-    return Inertia::render('Welcome');
-})->name('welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 // Public authentication routes
 Route::get('/login', [WebAuthController::class, 'showLogin'])->name('login');
