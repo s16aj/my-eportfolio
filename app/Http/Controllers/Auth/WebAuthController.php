@@ -61,6 +61,8 @@ class WebAuthController extends Controller
             'role' => 'student',
         ]);
 
+        $user->profile()->create();
+
         Auth::login($user);
 
         return redirect('/dashboard');
