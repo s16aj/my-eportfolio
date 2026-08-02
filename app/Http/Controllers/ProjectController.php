@@ -25,6 +25,8 @@ class ProjectController extends Controller
 
     public function destroy(Project $project)
     {
+        abort_unless($project->profile->user_id === auth()->id(), 403);
+
         $project->delete();
 
         return back()->with('success', 'Project deleted successfully!');

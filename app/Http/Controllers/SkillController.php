@@ -25,6 +25,8 @@ class SkillController extends Controller
 
     public function destroy(Skill $skill)
     {
+        abort_unless($skill->profile->user_id === auth()->id(), 403);
+
         $skill->delete();
 
         return back()->with('success', 'Skill deleted successfully!');
