@@ -11,6 +11,5 @@
 </head>
 <body class="font-sans antialiased">
     @inertia
-    <script src="{{ mix('js/bootstrap.js') }}"></script>
 </body>
 </html>
